@@ -1,0 +1,356 @@
+SVN账户密码
+kongdepeng = lj~D&l3@lX3/*i
+发布SVN账号密码
+kongdepeng=fdjke;dcd
+
+清新互联知识分享平台
+kongdp = kong1366282438
+
+setenv bootargs 'mem=800M console=ttyAMA0,115200 root=/dev/mmcblk0p2 rootfstype=squashfs rootwait blkdevparts=mmcblk0:5M(boot),4M(root_fs),128M(vs_fs),128M(vs2_fs),3M(web_fs),8M(lconfig),4M(stat),1024M(extern_fs),-(lib) ethaddr=00:2D:8F:0E:00:00 model=TSP260-B-1H hwver=V4.0.0.0.0.0.0.114.0-1.1'
+
+printenv 查看
+
+setenv   修改
+
+saveenv   保存
+
+MIS账号密码(5.4)
+kongdp@tsinglink.com
+Kong1366282438
+
+netlog输入 telnetd，输入后可以登录到系统
+
+lsmod 驱动列表
+lsmod | grep xxx -------查看内核是否有个xxx的模块
+insmod 挂载模块 rmmod 取消挂载模块 -------需要在root权限下使用
+modinfo xxx.ko-------查看xxx模块的信息
+/tmpfs/vs/drv 驱动列表
+linux查看用户名 whoami
+
+stop 【No】  start 【No】 restart【No】停止或启动某个app程序
+
+
+init修改之后记得编译
+
+车牌库:
+60.168.132.97:9688/plate
+人脸库：
+60.168.132.97:9688/tsinglink
+
+中国国家授时中心 NTP服务器地址 ntp.ntsc.ac.cn
+
+平台地址 60.168.132.97 登录端口 49988 网管端口49580 登录密码 Tsinglink150
+
+sl emc_msg 1
+查看当前端口发送的报文
+
+
+xlprintf("[%s], aaaaaaaaaaaaaa \r\n", "log");
+设置自己日志的命令
+
+IEventServer
+客户端服务器
+
+关于tftpd32的使用
+.windows系统设置完成后，并确保你的linux系统也安装了tftp服务器，那么就可以使用tftp进行文件传输了，说明如下：
+
+便可在你的linux系统上通过命令与windows系统（tftpd32工具设置好的当前目录）上的文件进行互传操作了，命令如下：
+
+在Linux系统终端输入：
+
+a. 从windows上传东西到linux：tftp -r 文件 -g 目标ip地址（即windows下的ip）；
+
+b.从linux上传东西到windows：tftp -l 文件 -p 目标ip地址（同上）；
+
+注释：-r 远程；-l 本地；-g：获取；-p：传送；
+
+
+https://172.25.18.21:8443/svn/embedded/Product/TSP260-B-1H/TSP260-B-1H-V3
+提交B球测试地方的链接 
+
+linux下安装驱动
+一，编译，在指点内核树下编译，生成.o文件或.ko文件 
+二，将生成的.o或.ko文件拷到相应目录，一般是/lib/module/kernel下面 
+三，用insmod命令加载，用rmmod命令卸载 
+查看驱动列表
+lsmod
+
+linux下查询串口设备信息
+cat /proc/tty/drivers/serial(usbserial)
+
+查询串口路径信息
+find /sys/devices | xargs grep "id"（ID填实际的ID）
+
+查看串口设备参数
+stty -F [tty device] -a
+
+设置串口设备参数
+stty -F [tty device] [pararm0] [param1] […]
+  命令后面接着的待设置串口参数不分先后顺序
+设置115200波特率、8位数据位、偶校验、2位停止位、无流控
+root@ubuntu:~# stty -F /dev/ttyUSB0 115200 cs8 parodd cstopb
+
+读取串口设备数据
+cat [tty device]
+示例：
+root@ubuntu:~# cat /dev/ttyUSB0 
+
+往串口设备写数据
+echo [data] > [tty device]
+示例：
+root@ubuntu:~# echo ABCD > /dev/tty
+
+
+
+
+
+接着运行vs_back下的vs_start.sh ，vs_start.sh 中运行restore.out 会查看其返回值，返回值为1时进行反初始化，返回值为0时
+运行 
+cd /qvs/vs
+./vs_start.sh
+
+
+挂载nfs命令
+mount -t nfs 172.22.41.10:/home/devnfs（虚拟机） /dev/test（设备） -o nolock
+mount -t nfs 172.22.41.99:/home/NFS/LuckChain/LCFacePad/Publish_LCFacePadSDK/NT98323/ /NFS/ -o nolock
+编辑共享站点文件信息
+sudo vim /etc/exports
+重启nfs服务使配置文件生效
+sudo service nfs-server start
+sudo rpcbind start
+配置环境变量
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Lib
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:./lib/glibc/common_lib/
+
+车牌模组算法驱动
+modprobe kdrv_ai.ko ai_net_supported_num=16;
+modprobe kflow_ai.ko
+528 007 报找不到kflow.ko的错误安装如下.ko
+insmod /lib/modules/4.19.91/hdal/kdrv_ai/kdrv_ai.ko ai_net_supported_num=16
+insmod /lib/modules/4.19.91/hdal/kflow_ai/kflow_ai.ko
+本季度netlog密码
+9C32AE86
+高创
+36.7.144.9:9988
+admin
+4g@tsinglink.com
+
+设备起不来的解决办法
+1，串口
+2，输入设备ID进入安全模式，返回升级上个版本的vs
+
+Linux解压相关
+zip：
+解压：unzip xxx.zip  解压到指定文件：unzip xxx.zip -d directory
+tar.bz2 :
+解压 ： tar -xjf xxx.tar.bz2
+压缩： tar -cjf xxx.tar.bz2 ./xxx/
+tar.gz:
+解压 ： tar -zxvf XXX.tar.gz
+开发注意事项(联咏SDK)
+http://doc.tct-sh.com:4999/web/#/p/96b5c2fa7827d41e2212bce22830fec8
+
+//查看proc状态日志
+cat /proc/hdal/flow
+
+dmesg的几种用法
+1，列出加载到内核中的所有驱动。
+使用如‘more’。 ‘tail’, ‘less ’或者‘grep’文字处理工具来处理‘dmesg’命令的输出。
+由于dmesg日志的输出不适合在一页中完全显示，因此我们使用管道（pipe）将其输出送到more或者less命令单页显示
+dmesg | more
+2，列出所有被检测到的硬件
+要显示所有被内核检测到的硬盘设备，你可以使用‘grep’命令搜索‘sda’关键词：
+dmesg | grep sda
+3，dmesg | head  -20前二十行
+4，dmesg | tail -20 后二十行
+5，搜索包含特定字符串的被检测到的硬件
+由于‘dmesg’命令的输出实在太长了，在其中搜索某个特定的字符串是非常困难的。
+因此，有必要过滤出一些包含‘usb’ ‘dma’ ‘tty’ ‘memory’等字符串的日志行。
+grep 命令 的‘-i’选项表示忽略大小写  dmesg | grep -i usb
+6，清空dmesg缓冲区日志 dmesg -C
+7,实时监控dmesg日志输出 在某些发行版中可以使用命令‘tail -f /var/log/dmesg’来实时监控dmesg的日志输出
+watch "dmesg | tail -20".
+
+在Linux下，Ctrl+S是让屏幕暂停输入（但是键盘输入还是可以用的），而不是vim卡死了，在Linux终端上按下Ctrl + S也会让屏幕暂停输入，并不是vim的问题。
+解决办法：解锁屏幕，使用Ctrl + Q
+
+1.查找目录下的所有文件中是否含有某个字符串
+find .|xargs grep -ri "IBM" 
+
+proc文件系统
+/proc/cpuinfo - CPU 的信息 (型号, 家族, 缓存大小等)
+/proc/meminfo - 物理内存、交换空间等的信息
+/proc/mounts - 已加载的文件系统的列表
+/proc/devices - 可用设备的列表
+/proc/filesystems - 被支持的文件系统
+/proc/modules - 已加载的模块
+/proc/version - 内核版本
+/proc/cmdline - 系统启动时输入的内核命令行参数
+
+cat  /proc/kmsg 持续查看dmesg
+查看加载驱动的地方
+/etc/init.d       cat S10_SysInit2
+
+算法授权相关
+获取处理器唯一序列号
+cat /proc/nvt_otp_op/otp_trim 获取芯片的唯一ID
+算法应用ID 见《测试用算法应用密码列表》
+算法应用密码见《测试用算法应用密码列表》
+算法应用厂商密码 我们测试时一般为空
+
+获取芯片唯一序列号
+http://console.vmaxiot.com:4999/web/#/p/0d21f5085fa8be5f2d9996142e48a158
+算法授权错误码，何总算法在此基础上加-900
+ *		-901	表示芯片唯一序列号校验出错，可能是授权码跟芯片不对应。
+ *		-902	表示算法类型校验出错，可能是申请授权使用的APPID和算法不对应。
+ *		-903	表示芯片类型校验出错，可能是申请授权使用的APPID和算法不对应。老的不区分芯片类型的授权不会返回这个值。
+ *		-904	表示授权类型不是芯片唯一序列号授权，算法授权库的CType参数不是1。
+ *		-905	表示授权码的长度不对，授权码的长度跟平台返回的不一致，目前只有20和32两种长度。
+ *		-906	表示授权库初始化失败，内部有个malloc分配内存失败了。
+ *		-907	表示获取芯片唯一序号的补丁没打。
+ 
+ 打完补丁后设备会在/proc/nvt_otp_op目录下显示类似于 unique_lock    unique_unlock文件
+ 
+ 
+ MAC冲突相关
+ 1，修改前需先关闭网卡ifconfig eth0 down
+ 2，修改网卡MAC地址 ifconfig eth0 hw ether  00:55:7B:B5:7D:22
+ 3，打开网卡 ifconfig eth0 up
+ 
+ 命令行配置网关
+
+route add default gw 192.168.0.1
+ 
+ Linux下，如果想要删除目录及其子目录下某种类型文件，比如说所有的txt文件，则可以使用下面的命令
+find . -name "*.txt" -type f -print -exec rm -rf {} \;  
+需提供给何总的sdk库
+-lhdal -lvos -lvendor_ai2 -lvendor_ai2_pub -lprebuilt_ai -lvendor_media -lvendor_pcie
+
+Windows编辑脚本后在linux报如下错误
+[root@localhost test]# ./test.sh   
+-bash: ./test.sh: /bin/sh^M: bad interpreter: No such file or directory
+
+通过：set ff 查看文件格式，此时的格式应该为dos应该改为unix vi编译器下输入：set ff=unix 即可
+
+
+
+47.96.224.81  epid：xxw
+
+用户名admin
+
+密码Test1234
+
+CCC1DA43
+
+注：设备号为8B06169E-88的设备其实是8B060023-25
+安卓设备报错
+I/_algorithm_demo: type=1400 audit(0.0:13584): avc: denied { execute } for path="/data/local/tmp/test/Lib/libqxenw_3.so" dev="mmcblk0p35" ino=516115 scontext=u:r:untrusted_app:s0:c512,c768 tcontext=u:object_r:shell_data_file:s0 tclass=file permissive=1
+解决
+临时
+adb shell setenforce 查看是不是Enforcing，如果是通过adb shell setenforce 0 改成Permissive
+永久
+输入命令vi /etc/selinux/config打开config文件，将SELINUX=enforcing改为SELINUX=disabled，然后保存退出。
+移安卓设备工程备忘
+https://blog.51cto.com/u_14202100/5081990
+1，到工程中ctrl+shirt+R把所有都替换成新的工程名
+2，删除-jni文件 cmd到该目录运行javac -h -jni JniUtil.java命令生成.class文件和头文件（前提需要有jdk环境），将头文件复制到cpp目录下
+3，注意除了cpp\common下替换最新的算法库在app\libs文件夹下也需要替换最新的算法库
+4，所有的改完之后需要到Build clean Project一次再去编译
+
+
+36.7.144.9  
+admin  密码：4g@tsinglink.com
+这是二期的平台登录信息
+
+47.96.224.81  EPID：xxw  
+admin   Test1234 车牌模组平台
+
+117.71.59.157    
+admin  密码：tsinglink@2022高创一期
+
+
+使用EMCTool需要到2400端口输入dm才可以
+
+566因为算法都是同一个进程跑的，所以调试的时候用.out跑需要在WatchDog里面停掉所有的算法，然后再手动跑，否则会出现段错误的问题
+
+外部往设备端传文件使用pull命令，外部通过平台往设备传文件使用push命令
+
+ 
+323初始化之前再加两句这个可以解决中途段错误导致内存没释放导致算法跑不起来的问题
+ vendor_common_clear_pool_blk(HD_COMMON_MEM_USER_BLK, 0);
+ ret = vendor_common_clear_pool_blk(HD_COMMON_MEM_CNN_POOL, 0);
+ 
+ ntpd -q -n -p ntp.aliyun.com 时间同步
+ export TZ=GMT-08:00
+
+ 566烧写
+mw.b 0x0800000 ff 100000;tftp 0x0800000 nvt-evb.bin
+nand erase 40000 40000;nand write 0x0800000 40000 40000
+
+mw.b 0x0800000 ff 200000;tftp 0x0800000 u-boot.bin
+nand erase C0000 200000;nand write 0x0800000 C0000 200000
+
+mw.b 0x0800000 ff 1400000;tftp 0x0800000 rootfs.ubifs.bin.ubi.raw
+nand erase 300000 1400000;nand write 0x0800000 300000 1400000
+
+ FTP下载地址：ftp.tct-sh.com 58.246.6.150
+        知识库登录域名：http://show.tct-sh.com
+        用户名：清新科技
+        密码：qingxin0905
+       请在贵司以下公网IP地址的局域网进行下载：
+       36.7.154.19
+ftp 默认端口号是21
+
+可用于查看某一进程的内存占用
+while [ 1 ]; do cat /proc/721/smaps | grep '^Rss:' | awk '{sum +=$2} END{print sum}'; sleep 1; done &
+或
+while [ 1 ]; do cat /proc/742/statm; sleep 1; done &
+
+modinfo kdrv_ai和modinfo kflow_ai可以查看驱动版本
+
+使用 ffmpeg 进行格式转换
+1.jpg 转 I420
+ffmpeg -i 001.jpg -pix_fmt yuv420p 001_I420_fromJPG.yuv
+2.png 转 I420
+ffmpeg -i 222.png -pix_fmt yuv420p 222_I420_fromPNG.yuv
+3.bmp 转 I420
+ffmpeg -i xxx.bmp -pix_fmt yuv420p xxx_I420_fromBMP.yuv
+4.jpg 转 NV21
+ffmpeg -i 001.jpg -pix_fmt nv21 001_NV21_fromJPG.yuv
+5.jpg 转 NV12
+ffmpeg -i 001.jpg -pix_fmt nv12 001_NV12_fromJPG.yuv
+6.jpg 转 YUYV
+ffmpeg -i 001.jpg -pix_fmt yuyv422 001_YUYV_fromJPG.yuv
+7.jpg 转 RGB24
+ffmpeg -i 001.jpg -pix_fmt rgb24 001_RGB24_fromJPG.RGB
+8.jpg 转 BGR24
+ffmpeg -i 001.jpg -pix_fmt bgr24 001_BGR24_fromJPG.RG
+
+
+566打开串口日志只需要把logd给关掉就行
+111
+47.96.224.81 epid是jjgl 半球批测日志
+
+/dev/zero文件是一个特殊的字符设备文件，当我们使用或者读取它的时候，它会提供无限连续不断的空数据流（特殊的数据格式流），
+其中一个典型的用法就是用它提供的字符流来覆盖信息，另一个常见用法就是产生一个特定大小的空白文件
+提示：在使用dd 命令产生空文件时常用/dev/zero作为字符流的源
+
+QXNPUDAL_API int QXNPUDAL_ResizeImage(qx_image_t *src_image, int quality_level, qx_image_t *resized_image);
+
+清除缓冲命令（清除前先试用sync命令进行磁盘同步）
+echo 1 > /proc/sys/vm/drop_caches：表示清除pagecache。 
+echo 2 > /proc/sys/vm/drop_caches：表示清除回收slab分配器中的对象（包括目录项缓存和inode缓存）。
+                                   slab分配器是内核中管理内存的一种机制，其中很多缓存数据实现都是用的pagecache。 
+echo 3 > /proc/sys/vm/drop_caches：表示清除pagecache和slab分配器中的缓存对象。
+
+/proc/进程号/fd 里面能看到对应的打开文件信息
+
+格林深瞳算法授权
+appid：102
+Password：4A9F49954E295D941F126C426B240D47
+selfpsw：123456
+
+指定静态库链接
+LIBLS_HI += -L$(MPP_LIBPATH) -l:libss_mpi.a
+-l:静态库名
