@@ -1,0 +1,137 @@
+http://doc.tct-sh.com:4999/web/#/p/8d3995d9aa784d4389b2ad3a6984a645
+咏域电子所有文档路径或 show.tct-sh.com    账户：清新科技  密码：qxkj
+
+设置SDK的编译环境
+source build/envsetup.sh
+查看SDK的编译环境
+get_stuff_for_environment
+配置编译选项
+lunch
+
+修改系统加载驱动默认配置的方法
+rootfs和Linux下各有一套配置
+Linux下的路径
+
+SDK中Linux和rootfs下各有一套配置，查看修改系统初始挂载文件的默认值如下
+Linux下  configs/Linux/编译时lunch的配置选项/cat nvt-info.dtsi   从中找到NVT_ROOTFS_ETC = "rootfs下可找到该配置文件"
+rootfs下 BSP/root-fs/rootfs/etc_Model/Linux所获取的配置文件/init.d/vi S10_SysInit2(修改所需要的配置文件)
+修改完文件后需要重新编译内核才会生效
+
+SDK初步编译完成后需要修改内核配置保证他能支持NFS，通过make linux_config进入配置（打包成我们可烧写的bin文件）
+File systems  --->  
+	[*] Enable POSIX file locking API
+	[*] Network File Systems  ---> 
+	现在还需要使能MULTIUSER  > General setup >  standard kernel features (expert users)>Multiple users, groups and capabilities support  
+ Symbol: NFS_FS [=n]                                                                                                                                                                                 │  
+  │ Type  : tristate                                                                                                                                                                                    │  
+  │ Prompt: NFS client support                                                                                                                                                                          │  
+  │   Location:                                                                                                                                                                                         │  
+  │     -> File systems                                                                                                                                                                                 │  
+  │ (2)   -> Network File Systems (NETWORK_FILESYSTEMS [=y])                                                                                                                                            │  
+  │   Defined at fs/nfs/Kconfig:1                                                                                                                                                                       │  
+  │   Depends on: NETWORK_FILESYSTEMS [=y] && INET [=y] && FILE_LOCKING [=y] && MULTIUSER [=y]                                                                                                          │  
+  │   Selects: LOCKD [=n] && SUNRPC [=n] && NFS_ACL_SUPPORT [=n]        
+  
+LuckChain算法除566外都为glibc ,566常用uclibc极少情况下为glibc。
+
+修改内存分配
+进入configs/cfg_gen  vim nvt-mem-tbl.dtsi 修改系统内存和媒体内存，内存分配大小如下：
+/* Linux system memory region*/
+	memory { device_type = "memory"; reg = <0x00000000 0x04000000>; };
+	
+	hdal-memory {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		media { reg = <0x04000000 0x04000000>; };
+	};
+查看内存分配状况
+cat /proc/meminfo
+
+
+内存池相关
+初始化内存池时会首先分割普通池，剩下的保存给私有池
+普通池和私有池的区别
+1，普通池需要先预算好分配多少块，然后调用hd_common_mem_init（）即可，普通池不能动态创建和销毁
+而私有池支持动态创建和销毁通过hd_common_mem_alloc()来分配
+2，普通池所有的模块都可以用，如果一个模块想从普通池获取内存块，会从最小的空闲缓冲区往上找，直到满足需求
+3，普通池管理缓冲区使用情况是通过lock/unlock和引用计数机制来管理的，当引用计数为零时，缓冲区就会被释放。
+而私有池没有这种方法进行管理
+
+Debug Command
+cat /proc/hdal/flow
+打印hdal接口使用的详细参数设置 但不包括push/pull/release接口
+cat /proc/hdal/comm/info
+常用来查看最大缓冲区数量 缺省96，需要改成1024才能满足算法日常需求。
+各参数代表的作用
+Max Count of pools 最大缓冲池数量 Poolid公共缓冲池句柄 DDR DDR数量 Phyaddr 公共或私有池的物理起始地址 VirAddr公共或私有池的虚拟起始地址
+BlkSize 缓冲池中缓冲区的大小 BlkCnt 缓冲池中缓冲区的数量 Free缓冲池中空闲缓冲区的数量 MInFree 自程序运行以来最小的空闲缓冲区数，如果最小数目是
+0，一些帧可能会因为缓冲区不足而丢失 Blkld 缓冲池中缓冲区的句柄 BlkHdl 块句柄的值 BlkAddr块缓冲区起始地址 WantSize 获得新缓冲区时的实际
+需求缓冲区大小 poolName 私有池名称
+MEM LAYOUT
+Pool-xx 池ID common pool 池类型为普通池 Phy 物理地址范围[start-end] Vir 虚拟地址范围[start-end] Size 内存大小 [free]未被使用的内存
+现役各设备对应SDK版本
+528 007 （006 008）
+566 004 (003  006)
+336 107 
+323 032
+注：应何总对于文件系统的要求所有版本的SDK都要有tmpfs这个目录，具体在SDK中加入目录的方法如下
+1，进入根文件系统的目录为/BSP/root-fs/rootfs
+2，创建tmpfs文件夹 
+3，configs/Linux/编译时lunch的配置选项/cat nvt-info.dtsi  从中找到NVT_ROOTFS_ETC = "rootfs下可找到该配置文件"
+4，BSP/root-fs/rootfs/etc_Model/Linux所获取的配置文件/init.d 创建一个文本Sxx_rootfs(序号必须是不存在的) 
+5，编辑该文件添加自己需要的配置 比如 mount tmpfs /tmpfs -t tmpfs 保存
+6，编译内核，之后查看一眼文件是否存在，存在表示添加成功
+7，重新烧写内核
+注：
+32x/33x不支持多进程方式
+52x指520/525，528是528/529
+336就是336，331是331/332
+
+联咏的yuv420，在前端平台指的是nv12，在后端平台指的是nv21 323是nv21输入
+
+如何确定SDK版本
+目前没有确切的命令可以查看板子里的SDK版本，可以把所有的hdal的ko打印版本信息出来看
+find /sys/module/ -name version -exec echo {} \; -exec cat {} \;                      
+modinfo kdrv_ai和modinfo kflow_ai可以查看驱动版本
+printenv可查看版本的SDK路径
+
+SDK将文件全部设置成可读可写：
+需修改uboot源码 到BSP/u-boot/board/novatek/common/nvt_ivot_soc_utils.c
+将part_num 设置成rw 
+
+系统常用命令
+http://doc.tct-sh.com:4999/web/#/p/ec45f35b9c4993c9065935df85ad6059
+
+cat /proc/hdal/comm/info查看内存使用情况
+查看系统内存free
+查看内核占用内存 cat /proc/meminfo
+
+33x AI2 SDK版本一览
+http://doc.tct-sh.com:4999/web/#/p/dd99c52d56ccda72461e6081a94a8da9
+52x AI2 SDK版本一览
+http://doc.tct-sh.com:4999/web/#/p/b8c63136114be994a9574430b7b329f1
+
+56x_PatchList
+http://doc.tct-sh.com:4999/web/#/p/8cf6a98b12fcba40f2e114025252104a
+
+Sys_高精度定时器
+http://doc.tct-sh.com:4999/web/#/p/4c7367cbb51400a2928725be9363fada
+NT9833x获取唯一序列号
+http://doc.tct-sh.com:4999/web/#/p/cd5109cdc92403dea03400900e570505
+解决内核mismatch的补丁
+链接：https://pan.baidu.com/s/1JsoylS9qvt0k-Ww8K_kHdw 
+20220512 56x AI2 Patch
+提取码：x3fn 
+Isp_AF自动聚焦相关
+http://doc.tct-sh.com:4999/web/#/p/e800d5b3b55891cd2672df04e383a3cc
+56x AI2 SDK版本一览
+http://doc.tct-sh.com:4999/web/#/p/4e54cc6ecf9f3a38a04d1bf5ecb479d2
+
+Your image size 75824148 is larger than all-in-one size with 69206016 
+Read SD fail
+镜像文件过大，通过修改/BSP/u-boot/include/configs/novatek/na51089_ca9.h 来增大
+336
+//目录下只能看配置给media用的每个pool的使用状况
+/proc/videograph/ms/fixed
+
+
